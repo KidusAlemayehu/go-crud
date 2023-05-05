@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  golangDB:
+    image: postgres:14.2
+    container_name: golangDB
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: '3346khag'
+      POSTGRES_USER: postgres
+      POSTGRES_DB: go-testdb
+    volumes:
+      - .opt/golang/crud/pgdb:/var/lib/postgresql/data
+
+  golang:
+    build: .
+    container_name: golang
+    restart: always
+    env_file:
+      - .env
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_HOST: golangDB
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+    depends_on:
+      - golangDB

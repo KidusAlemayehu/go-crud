@@ -1,0 +1,6 @@
+.env
+.vscode/
+go-crud.exe
+go-crud.exe~
+go-test.session.sql
+.opt/
